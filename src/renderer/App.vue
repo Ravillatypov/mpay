@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div>
+      <router-link to="/Auth">auth</router-link>
+      <router-link to="/Invoice">invoice</router-link>
+    </div>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

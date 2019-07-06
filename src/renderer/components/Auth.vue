@@ -1,31 +1,19 @@
 <template>
   <div>
-  <v-content>
-      <v-container fluid fill-height>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Авторизация</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field v-model="clientId" label="ID" required></v-text-field>
-                  <v-text-field v-model="clientSecret" label="secret" required></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn @click="getToken()" color="primary">авторизация</v-btn>
-                <v-btn @click="clear()">сбросить</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-    <v-alert v-model="message"></v-alert>
+      <div>
+        <label for="client-id">логин</label>
+        <input id="client-id" v-model="clientId" />
+      </div>
+      <br />
+      <div>
+        <label for="client-pass">пароль</label>
+        <input id="client-pass" v-model="clientSecret" />
+      </div>
+      <br />
+      <button @click="getToken()">авторизоваться</button>
+      <div>
+        {{message}}
+      </div>
   </div>
 </template>
 
