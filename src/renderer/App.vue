@@ -3,6 +3,7 @@
     <div>
       <router-link to="/Auth">auth</router-link>
       <router-link to="/Invoice">invoice</router-link>
+      <router-link to="/InvoiceList">invoice list</router-link>
     </div>
     <div>
       <router-view></router-view>
