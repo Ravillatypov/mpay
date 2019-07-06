@@ -1,5 +1,6 @@
 <template>
   <div>
+      <p>{{status}}</p>
       <div>
         <label for="invoice-currency">валюта</label>
         <input id="invoice-currency" v-model="newInvoice.currency" />
@@ -49,6 +50,14 @@ export default {
           console.log(e.response.data)
           this.message = e.response.data.message
         })
+    }
+  },
+  computed: {
+    status: function () {
+      if (!this.$store.getters.isAuthenticated) {
+        return 'необходимо авторизоваться'
+      }
+      return ''
     }
   }
 }

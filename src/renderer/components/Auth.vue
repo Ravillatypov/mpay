@@ -40,11 +40,13 @@ export default {
         .then((r) => {
           this.token = r.data.access_token
           this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.token
+          this.$store.dispatch('setAuthStatus', true)
         })
         .catch((error) => {
           console.log(error.response.status)
           console.log(error.response.data)
           this.message = error.response.data.message
+          this.$store.dispatch('setAuthStatus', false)
         })
     },
     clear () {
