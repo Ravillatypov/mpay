@@ -1,9 +1,13 @@
 <template>
   <div>
-      <p>{{status}}</p>
+      <h3>{{status}}</h3>
       <div>
         <label for="invoice-currency">валюта</label>
-        <input id="invoice-currency" v-model="newInvoice.currency" />
+        <select id="invoice-currency" v-model="newInvoice.currency">
+          <option value="EUR">EUR</option>
+          <option value="BTC">BTC</option>
+          <option value="USD">USD</option>
+        </select>
       </div>
       <br />
       <div>

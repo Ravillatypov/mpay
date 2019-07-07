@@ -1,13 +1,21 @@
 <template>
   <div id="app">
     <div>
-      <router-link to="/Auth">auth</router-link>
-      <router-link to="/Invoice">invoice</router-link>
-      <router-link to="/InvoiceList">invoice list</router-link>
     </div>
     <div>
-      <router-view></router-view>
     </div>
+
+  <div>
+    <md-toolbar class="md-primary">
+      <md-button to="/Auth">auth</md-button>
+      <md-button to="/Invoice">invoice</md-button>
+      <md-button to="/InvoiceList">invoice list</md-button>
+    </md-toolbar>
+    
+    <md-content class="main">
+      <router-view></router-view>
+    </md-content>
+  </div>
   </div>
 </template>
 
@@ -18,5 +26,8 @@
 </script>
 
 <style>
-  /* CSS */
+.main {
+  padding: .8em;
+  margin: 0.8em;
+}
 </style>

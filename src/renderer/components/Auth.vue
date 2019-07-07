@@ -1,19 +1,21 @@
 <template>
   <div>
-      <div>
-        <label for="client-id">логин</label>
-        <input id="client-id" v-model="clientId" />
-      </div>
-      <br />
-      <div>
-        <label for="client-pass">пароль</label>
-        <input id="client-pass" v-model="clientSecret" />
-      </div>
-      <br />
-      <button @click="getToken()">авторизоваться</button>
-      <div>
-        {{message}}
-      </div>
+    <md-content class="md-elevation-3">
+      <div class="form main">
+        <md-field>
+          <label>логин</label>
+          <md-input v-model="clientId" autofocus></md-input>
+        </md-field>
+
+        <md-field md-has-password>
+          <label>пароль</label>
+          <md-input v-model="clientSecret" type="password"></md-input>
+        </md-field>
+
+        <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">авторизация</md-button>
+        </div>
+    </md-content>
+    <p>{{message}}</p>
   </div>
 </template>
 
