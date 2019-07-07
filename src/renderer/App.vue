@@ -11,6 +11,7 @@
       <md-button to="/Invoice">invoice</md-button>
       <md-button to="/InvoiceList">invoice list</md-button>
       <md-button to="/Wallet">wallet</md-button>
+      <md-button to="/CreateWithdraw">withdraw</md-button>
     </md-toolbar>
     
     <md-content class="main">

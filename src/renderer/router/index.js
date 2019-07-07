@@ -4,6 +4,7 @@ import Auth from '@/components/Auth'
 import CreateInvoice from '@/components/Invoice'
 import InvoicesList from '@/components/InvoicesList'
 import Wallet from '@/components/Wallet'
+import CreateWithdraw from '@/components/Withdrawal'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/Wallet',
       name: 'wallet',
       component: Wallet
+    },
+    {
+      path: '/CreateWithdraw',
+      name: 'CreateWithdraw',
+      component: CreateWithdraw
     },
     {
       path: '*',
