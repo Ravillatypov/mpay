@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Auth from '@/components/Auth'
 import CreateInvoice from '@/components/Invoice'
 import InvoicesList from '@/components/InvoicesList'
+import Wallet from '@/components/Wallet'
 
 Vue.use(Router)
 
@@ -25,8 +26,13 @@ export default new Router({
     },
     {
       path: '/InvoiceList',
-      name: 'invoice-create',
+      name: 'invoice-view',
       component: InvoicesList
+    },
+    {
+      path: '/Wallet',
+      name: 'wallet',
+      component: Wallet
     },
     {
       path: '*',
