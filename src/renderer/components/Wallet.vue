@@ -1,7 +1,6 @@
 <template>
   <div>
       <h3>{{status}}</h3>
-      <button @click="update()">обновить список</button>
       <table v-if="showList">
         <caption>кашельки</caption>
         <tr>
@@ -15,7 +14,6 @@
           <td>{{item.available}}</td>
         </tr>
       </table>
-      <p>{{message}}</p>
   </div>
 </template>
 
@@ -24,8 +22,7 @@ export default {
   name: 'invoice',
   data: function () {
     return {
-      walletsList: [],
-      message: null
+      walletsList: []
     }
   },
   methods: {
@@ -38,8 +35,15 @@ export default {
         .catch((e) => {
           console.log(e.response.status)
           console.log(e.response.data)
-          this.message = e.response.data.message
+          if (e.response.status === 401) this.updateToken()
         })
+    },
+    updateToken () {
+      this.$store.dispatch('updateToken')
+      if (this.$store.getters.isAuthenticated) {
+        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.getToken
+        this.update()
+      }
     }
   },
   computed: {
@@ -52,6 +56,9 @@ export default {
     showList: function () {
       return this.walletsList.length > 0
     }
+  },
+  mounted: function () {
+    this.update()
   }
 }
 </script>

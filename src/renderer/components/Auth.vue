@@ -4,12 +4,12 @@
       <div class="form main">
         <md-field>
           <label>логин</label>
-          <md-input v-model="clientId" autofocus></md-input>
+          <md-input v-model="oauth2Token.client_id" autofocus></md-input>
         </md-field>
 
         <md-field md-has-password>
           <label>пароль</label>
-          <md-input v-model="clientSecret" type="password"></md-input>
+          <md-input v-model="oauth2Token.client_secret" type="password"></md-input>
         </md-field>
 
         <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">авторизация</md-button>
@@ -24,36 +24,38 @@ export default {
   name: 'landing-page',
   data: function () {
     return {
-      clientId: null,
-      clientSecret: null,
+      oauth2Token: {
+        grant_type: 'client_credentials',
+        client_id: null,
+        client_secret: null
+      },
       token: null,
       message: null
     }
   },
   methods: {
     getToken () {
-      const body = JSON.stringify({
-        'grant_type': 'client_credentials',
-        'client_id': this.clientId,
-        'client_secret': this.clientSecret
-      })
+      const body = JSON.stringify(this.oauth2Token)
       this.$http
         .post('/oauth2/token', body)
         .then((r) => {
-          this.token = r.data.access_token
-          this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.token
-          this.$store.dispatch('setAuthStatus', true)
+          this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
+          this.$store.dispatch('setAuthStatus', {
+            status: true,
+            body,
+            token: r.data.access_token
+          })
         })
         .catch((error) => {
           console.log(error.response.status)
           console.log(error.response.data)
           this.message = error.response.data.message
-          this.$store.dispatch('setAuthStatus', false)
+          this.$store.dispatch('setAuthStatus', {
+            status: false,
+            body: null,
+            token: null
+          })
         })
-    },
-    clear () {
-      this.clientId = null
-      this.clientSecret = null
     }
   }
 }

@@ -5,11 +5,12 @@ import router from './router'
 import store from './store'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
+import Config from './config'
 
 Vue.use(VueMaterial)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-axios.defaults.baseURL = 'https://api.acquiring.mercuryo.io'
+axios.defaults.baseURL = Config.BaseURL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
