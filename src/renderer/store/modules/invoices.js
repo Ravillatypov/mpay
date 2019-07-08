@@ -1,5 +1,6 @@
 const state = {
-  invoices: []
+  withdrawIds: [],
+  withdraws: []
 }
 
 const mutations = {

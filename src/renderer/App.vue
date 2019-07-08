@@ -8,10 +8,8 @@
   <div>
     <md-toolbar class="md-primary">
       <md-button to="/Auth">auth</md-button>
-      <md-button to="/Invoice">invoice</md-button>
-      <md-button to="/InvoiceList">invoice list</md-button>
       <md-button to="/Wallet">wallet</md-button>
-      <md-button to="/CreateWithdraw">withdraw</md-button>
+      <md-button to="/CreateWithdraw">withdrawal</md-button>
     </md-toolbar>
     
     <md-content class="main">

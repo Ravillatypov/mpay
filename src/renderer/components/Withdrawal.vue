@@ -59,10 +59,11 @@ export default {
           params: this.newWithdrawalRate
         })
         .then((r) => {
-          this.newWithdrawal.withdrawal_token = r.data[0].withdrawal_token
+          console.log(r.data)
+          this.newWithdrawal.withdrawal_token = r.data.withdrawal_token
         })
         .catch((e) => {
-          this.message = e.response.data.message
+          console.log(e.response)
         })
     },
     createWithdrawal () {
@@ -72,6 +73,7 @@ export default {
       this.$http
         .post('/v1.0/withdraw', body)
         .then((r) => {
+          console.log(r.data)
           this.message = 'создан счет с id: ' + r.data.id
         })
         .catch((e) => {

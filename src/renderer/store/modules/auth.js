@@ -10,6 +10,12 @@ const state = {
   token: null
 }
 
+if (localStorage.client_token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('client_token')
+  state.token = localStorage.getItem('client_token')
+  state.is_authenticated = true
+}
+if (localStorage.token_get_body) state.body = localStorage.getItem('token_get_body')
 const mutations = {
   SET_STATUS (state, status) {
     state.is_authenticated = status.status

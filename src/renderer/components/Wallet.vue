@@ -2,7 +2,6 @@
   <div>
       <h3>{{status}}</h3>
       <table v-if="showList">
-        <caption>кашельки</caption>
         <tr>
           <th>валюта</th>
           <th>баланс</th>

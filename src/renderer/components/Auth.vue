@@ -45,6 +45,10 @@ export default {
             body,
             token: r.data.access_token
           })
+          localStorage.setItem('client_secret', this.oauth2Token.client_secret)
+          localStorage.setItem('client_id', this.oauth2Token.client_id)
+          localStorage.setItem('token_get_body', body)
+          localStorage.setItem('client_token', r.data.access_token)
         })
         .catch((error) => {
           console.log(error.response.status)
@@ -57,6 +61,10 @@ export default {
           })
         })
     }
+  },
+  mounted () {
+    if (localStorage.client_id) this.oauth2Token.client_id = localStorage.client_id
+    if (localStorage.client_secret) this.oauth2Token.client_secret = localStorage.client_secret
   }
 }
 </script>
