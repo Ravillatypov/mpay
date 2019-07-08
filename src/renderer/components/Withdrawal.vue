@@ -125,7 +125,12 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
-          this.message = e.response.data.message
+          if (e.response.status === 401 && this.have_body) {
+            this.updateToken()
+            if (this.getToken) this.getWithdrawalToken()
+          } else {
+            this.message = e.response.data.message
+          }
         })
     },
     createWithdrawal () {
@@ -141,14 +146,24 @@ export default {
           this.steps = 'finish'
         })
         .catch((e) => {
-          console.log(e.response.status)
-          console.log(e.response.data)
-          this.message = e.response.data
+          console.log(e.response)
+          if (e.response.status === 401 && this.have_body) {
+            this.updateToken()
+            if (this.getToken) this.createWithdrawal()
+          } else {
+            this.message = e.response.data.message
+          }
         })
+    },
+    updateToken () {
+      this.$store.dispatch('updateToken')
+      if (this.is_authenticated) {
+        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.getToken
+      }
     }
   },
   computed: {
-    ...mapGetters(['is_authenticated'])
+    ...mapGetters(['is_authenticated', 'have_body'])
   }
 }
 </script>

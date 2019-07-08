@@ -39,19 +39,19 @@ export default {
         .catch((e) => {
           console.log(e.response.status)
           console.log(e.response.data)
-          if (e.response.status === 401) this.updateToken()
+          if (e.response.status === 401 && this.have_body) this.updateToken()
         })
     },
     updateToken () {
       this.$store.dispatch('updateToken')
-      if (this.$store.getters.isAuthenticated) {
-        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.getToken
+      if (this.is_authenticated) {
+        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.getToken
         this.update()
       }
     }
   },
   computed: {
-    ...mapGetters(['withdrawIds', 'is_authenticated']),
+    ...mapGetters(['withdrawIds', 'is_authenticated', 'have_body', 'getToken']),
     showList: function () {
       return this.walletsList.length > 0
     }

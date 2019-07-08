@@ -59,7 +59,8 @@ const actions = {
 
 const getters = {
   is_authenticated: state => state.is_authenticated,
-  getToken: state => state.token
+  getToken: state => state.token,
+  have_body: state => state.body && state.body.length > 0
 }
 
 export default {
