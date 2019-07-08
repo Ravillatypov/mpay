@@ -1,8 +1,8 @@
 {
-  "name": "acquiring-simple",
+  "name": "mpay-acquiring",
   "version": "0.0.1",
-  "author": "Ravil Latypov <r.latypov@napoleonit.ru>",
-  "description": "An electron-vue project",
+  "author": "Ravil Latypov <ravillatypov12@gmail.com>",
+  "description": "mpay acquiring app",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "acquiring-simple",
-    "appId": "com.example.yourapp",
+    "productName": "mpay-acquiring",
+    "appId": "com.gmail.ravillatypov12.mpay",
     "directories": {
       "output": "build"
     },
