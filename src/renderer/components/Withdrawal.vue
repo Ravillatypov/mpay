@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>{{status}}</h3>
+      <h3 v-show="!is_authenticated">необходимо авторизоваться</h3>
       <div>
         <label for="withdrawal-currency">валюта</label>
         <select id="withdrawal-currency" v-model="newWithdrawalRate.currency">
@@ -25,11 +25,21 @@
       </div>
       <br />
       <button @click="createWithdrawal()">создать</button>
-      <p>{{message}}</p>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>status</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: 'withdrawal',
   data: function () {
@@ -44,7 +54,11 @@ export default {
         address: null,
         withdrawal_token: null
       },
-      message: null
+      message: null,
+      createdWithdraw: {
+        id: null,
+        status: null
+      }
     }
   },
   methods: {
@@ -74,7 +88,8 @@ export default {
         .post('/v1.0/withdraw', body)
         .then((r) => {
           console.log(r.data)
-          this.message = 'создан счет с id: ' + r.data.id
+          this.createdWithdraw = r.data
+          this.$store.dispatch('addWithdrawId', r.data.id)
         })
         .catch((e) => {
           console.log(e.response.status)
@@ -84,12 +99,7 @@ export default {
     }
   },
   computed: {
-    status: function () {
-      if (!this.$store.getters.isAuthenticated) {
-        return 'необходимо авторизоваться'
-      }
-      return ''
-    }
+    ...mapGetters(['is_authenticated'])
   }
 }
 </script>

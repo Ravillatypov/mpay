@@ -3,16 +3,16 @@
     <md-content class="md-elevation-3">
       <div class="form main">
         <md-field>
-          <label>логин</label>
+          <label>client_id</label>
           <md-input v-model="oauth2Token.client_id" autofocus></md-input>
         </md-field>
 
         <md-field md-has-password>
-          <label>пароль</label>
+          <label>client_secret</label>
           <md-input v-model="oauth2Token.client_secret" type="password"></md-input>
         </md-field>
 
-        <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">авторизация</md-button>
+        <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">Log In</md-button>
         </div>
     </md-content>
     <p>{{message}}</p>

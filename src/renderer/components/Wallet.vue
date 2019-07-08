@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>{{status}}</h3>
+      <h3 v-show="!is_authenticated">необходимо авторизоваться</h3>
       <table v-if="showList">
         <tr>
           <th>валюта</th>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: 'invoice',
   data: function () {
@@ -46,12 +47,7 @@ export default {
     }
   },
   computed: {
-    status: function () {
-      if (!this.$store.getters.isAuthenticated) {
-        return 'необходимо авторизоваться'
-      }
-      return ''
-    },
+    ...mapGetters(['withdrawIds', 'is_authenticated']),
     showList: function () {
       return this.walletsList.length > 0
     }

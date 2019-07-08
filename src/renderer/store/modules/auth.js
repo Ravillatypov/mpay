@@ -16,11 +16,15 @@ if (localStorage.client_token) {
   state.is_authenticated = true
 }
 if (localStorage.token_get_body) state.body = localStorage.getItem('token_get_body')
+
 const mutations = {
   SET_STATUS (state, status) {
     state.is_authenticated = status.status
     state.body = status.body
     state.token = status.token
+  },
+  LOG_OUT (state) {
+    state.is_authenticated = false
   }
 }
 
@@ -47,11 +51,14 @@ const actions = {
           token: null
         })
       })
+  },
+  logOut ({commit}) {
+    commit('LOG_OUT')
   }
 }
 
 const getters = {
-  isAuthenticated: state => state.is_authenticated,
+  is_authenticated: state => state.is_authenticated,
   getToken: state => state.token
 }
 
