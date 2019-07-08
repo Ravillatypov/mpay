@@ -6,14 +6,14 @@
     </div>
 
   <div>
-    <md-toolbar class="md-primary" v-if="is_authenticated">
-      <md-button to="/Wallet">wallet</md-button>
-      <md-button to="/CreateWithdraw">create withdraw</md-button>
-      <md-button to="/WithdrawList">withdrawals</md-button>
+    <md-toolbar class="md-transparent" v-if="is_authenticated">
+      <md-button class="md-raised md-primary" to="/Wallet">кошелек</md-button>
+      <md-button class="md-raised md-primary" to="/CreateWithdraw">вывести деньги</md-button>
+      <md-button class="md-raised md-primary" to="/WithdrawList">запросы на вывод</md-button>
       <!-- <md-button @click="logOut()">log out</md-button> -->
     </md-toolbar>
     <md-toolbar class="md-primary" v-else>
-      <md-button to="/Auth">auth</md-button>
+      <md-button to="/Auth">авторизация</md-button>
     </md-toolbar>
     
     <md-content class="main">

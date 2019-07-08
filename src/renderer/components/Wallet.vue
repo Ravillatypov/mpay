@@ -1,18 +1,22 @@
 <template>
-  <div>
-      <h3 v-show="!is_authenticated">необходимо авторизоваться</h3>
-      <table v-if="showList">
-        <tr>
-          <th>валюта</th>
-          <th>баланс</th>
-          <th>доступно</th>
-        </tr>
-        <tr v-for="item in walletsList" :key="item.id">
-          <td>{{item.currency}}</td>
-          <td>{{item.balance}}</td>
-          <td>{{item.available}}</td>
-        </tr>
-      </table>
+  <div class="md-layout md-gutter">
+      <div class="md-layout-item">
+      <md-table md-card v-show="showList">
+        <md-table-toolbar>
+          <h1 class="md-title">кошелек</h1>
+        </md-table-toolbar>
+        <md-table-row>
+          <md-table-head>валюта</md-table-head>
+          <md-table-head>баланс</md-table-head>
+          <md-table-head>доступно</md-table-head>
+        </md-table-row>
+        <md-table-row v-for="item in walletsList" :key="item.id">
+          <md-table-cell>{{item.currency}}</md-table-cell>
+          <md-table-cell>{{item.balance}}</md-table-cell>
+          <md-table-cell>{{item.available}}</md-table-cell>
+        </md-table-row>
+      </md-table>
+      </div>
   </div>
 </template>
 
