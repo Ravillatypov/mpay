@@ -9,7 +9,7 @@
 
         <md-field md-has-password>
           <label>client_secret</label>
-          <md-input v-model="oauth2Token.client_secret"></md-input>
+          <md-input v-model="oauth2Token.client_secret" type="password"></md-input>
         </md-field>
 
         <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">войти</md-button>
@@ -39,28 +39,26 @@ export default {
       this.$http
         .post('/oauth2/token', body)
         .then((r) => {
+          console.log('auth success')
           this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
-          this.$store.dispatch('setAuthStatus', {
-            status: true,
-            body,
-            token: r.data.access_token
-          })
+          localStorage.client_token = r.data.access_token
+          localStorage.token_get_body = body
+          this.$store.dispatch('logIn')
+          this.$router.push('/')
         })
-        .catch((error) => {
-          console.log(error.response.status)
-          console.log(error.response.data)
-          this.message = error.response.data.message
-          this.$store.dispatch('setAuthStatus', {
-            status: false,
-            body: null,
-            token: null
-          })
+        .catch((e) => {
+          console.log('auth failed')
+          console.log(e)
+          this.message = e.response
+          localStorage.token_get_body = false
+          localStorage.client_token = false
+          this.$store.dispatch('logOut')
         })
     }
   },
   mounted () {
-    if (localStorage.client_id) this.oauth2Token.client_id = localStorage.client_id
-    if (localStorage.client_secret) this.oauth2Token.client_secret = localStorage.client_secret
+    this.oauth2Token.client_id = localStorage.client_id || ''
+    this.oauth2Token.client_secret = localStorage.client_secret || ''
   }
 }
 </script>

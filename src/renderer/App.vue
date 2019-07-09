@@ -10,7 +10,7 @@
       <md-button class="md-raised md-primary" to="/Wallet">кошелек</md-button>
       <md-button class="md-raised md-primary" to="/CreateWithdraw">вывести деньги</md-button>
       <md-button class="md-raised md-primary" to="/WithdrawList">запросы на вывод</md-button>
-      <md-button class="md-accent" @click="logOut()">log out</md-button>
+      <md-button class="md-accent" @click="logOutAndAuth()">выход</md-button>
     </md-toolbar>
     <md-toolbar class="md-primary" v-else>
       <md-button to="/Auth">авторизация</md-button>
@@ -24,14 +24,17 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
   name: 'acquiring-simple',
   computed: {
     ...mapGetters(['is_authenticated'])
   },
   methods: {
-    ...mapActions(['logOut'])
+    logOutAndAuth () {
+      this.$store.dispatch('logOut')
+      this.$router.push('/Auth')
+    }
   }
 }
 </script>

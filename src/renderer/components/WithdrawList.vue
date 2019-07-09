@@ -1,18 +1,17 @@
 <template>
   <div>
-      <h3 v-show="!is_authenticated">необходимо авторизоваться</h3>
       <table v-if="withdrawIds.length">
         <caption>withdraws</caption>
         <tr>
           <th>ID</th>
-          <th>address</th>
-          <th>amount</th>
-          <th>status</th>
+          <th>адрес</th>
+          <th>сумма</th>
+          <th>статус</th>
         </tr>
         <tr v-for="item in withdraws" :key="item.id">
           <td>{{item.id}}</td>
           <td>{{item.details.address}}</td>
-          <td>{{item.details.amount}}</td>
+          <td>{{item.details.amount}} BTC</td>
           <td>{{item.status}}</td>
         </tr>
       </table>
@@ -21,7 +20,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 export default {
   name: 'invoice',
   data: function () {
@@ -31,12 +29,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['withdrawIds', 'is_authenticated'])
+    withdrawIds: () => JSON.parse(localStorage.withdraw_ids || '[]')
   },
   mounted () {
-    for (let id of this.withdrawIds) {
+    for (let id of localStorage.withdrawIds.withdraw_ids || []) {
       let obj = this.getWithdrawByID(id)
-      if (obj) this.withdraws = this.withdraws.concat(obj)
+      if (obj) this.withdraws.push(obj)
     }
   },
   methods: {
