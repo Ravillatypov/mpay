@@ -10,17 +10,17 @@ const state = {
 state.is_authenticated = localStorage.client_token || false
 
 const mutations = {
-  CHANGE_AUTH (state) {
-    state.is_authenticated = !state.is_authenticated
+  CHANGE_AUTH (state, status) {
+    state.is_authenticated = status
   }
 }
 
 const actions = {
   logIn ({commit}) {
-    commit('CHANGE_AUTH')
+    commit('CHANGE_AUTH', true)
   },
   logOut ({commit}) {
-    commit('CHANGE_AUTH')
+    commit('CHANGE_AUTH', false)
   }
 }
 

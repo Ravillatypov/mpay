@@ -43,8 +43,14 @@ export default {
       this.$http
         .get('/v1.0/withdraw/' + id)
         .then(r => { result = r.data })
-        .catch(e => {
+        .catch((e) => {
           console.log(e.response)
+          if (e.response.status === 401) {
+            this.$updateAuthToken()
+            if (this.is_authenticated) this.getWithdrawByID(id)
+          } else {
+            this.message = e.response.data
+          }
         })
       return result
     }

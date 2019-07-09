@@ -125,8 +125,8 @@ export default {
         .catch((e) => {
           console.log(e.response)
           if (e.response.status === 401 && this.have_body) {
-            this.updateToken()
-            if (this.getToken) this.getWithdrawalToken()
+            this.$updateAuthToken()
+            if (this.is_authenticated) this.getWithdrawalToken()
           } else {
             this.message = e.response.data
           }
@@ -150,19 +150,13 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
-          if (e.response.status === 401 && this.have_body) {
-            this.updateToken()
-            if (this.getToken) this.createWithdrawal()
+          if (e.response.status === 401) {
+            this.$updateAuthToken()
+            if (this.is_authenticated) this.createWithdrawal()
           } else {
             this.message = e.response.data
           }
         })
-    },
-    updateToken () {
-      this.$store.dispatch('updateToken')
-      if (this.is_authenticated) {
-        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.getToken
-      }
     },
     createdWithdrawUpdater () {
       this.getWithdrawByID()
@@ -176,11 +170,17 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
+          if (e.response.status === 401) {
+            this.$updateAuthToken()
+            if (this.is_authenticated) this.getWithdrawByID()
+          } else {
+            this.message = e.response.data
+          }
         })
     }
   },
   computed: {
-    ...mapGetters(['is_authenticated', 'have_body'])
+    ...mapGetters(['is_authenticated'])
   }
 }
 </script>

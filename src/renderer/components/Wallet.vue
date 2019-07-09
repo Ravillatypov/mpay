@@ -22,11 +22,13 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import { setInterval } from 'timers'
 export default {
   name: 'invoice',
   data: function () {
     return {
-      walletsList: []
+      walletsList: [],
+      timer: null
     }
   },
   methods: {
@@ -37,27 +39,25 @@ export default {
           this.walletsList = r.data
         })
         .catch((e) => {
-          console.log(e.response.status)
-          console.log(e.response.data)
-          if (e.response.status === 401 && this.have_body) this.updateToken()
+          console.log(e.response)
+          if (e.response.status === 401) {
+            this.$updateAuthToken()
+            if (this.is_authenticated) this.update()
+          } else {
+            this.message = e.response.data
+          }
         })
-    },
-    updateToken () {
-      this.$store.dispatch('updateToken')
-      if (this.is_authenticated) {
-        this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.getToken
-        this.update()
-      }
     }
   },
   computed: {
-    ...mapGetters(['withdrawIds', 'is_authenticated', 'have_body', 'getToken']),
+    ...mapGetters(['is_authenticated']),
     showList: function () {
       return this.walletsList.length > 0
     }
   },
-  mounted: function () {
+  mounted () {
     this.update()
+    this.timer = setInterval(this.update, 5000)
   }
 }
 </script>
