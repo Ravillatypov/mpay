@@ -7,6 +7,8 @@ const state = {
   is_authenticated: false
 }
 
+state.is_authenticated = localStorage.client_token || false
+
 const mutations = {
   CHANGE_AUTH (state) {
     state.is_authenticated = !state.is_authenticated

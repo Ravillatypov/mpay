@@ -55,8 +55,8 @@
           <h1 class="md-title">создан запрос на вывод</h1>
         </md-table-toolbar>
         <md-table-row>
-          <md-table-head md-numeric>ID</md-table-head>
-          <md-table-head>status</md-table-head>
+          <md-table-head>ID</md-table-head>
+          <md-table-head>статус</md-table-head>
         </md-table-row>
         <md-table-row>
           <md-table-cell>{{createdWithdraw.id}}</md-table-cell>
@@ -69,6 +69,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import { setInterval, clearInterval } from 'timers'
 export default {
   name: 'withdrawal',
   data: function () {
@@ -80,8 +81,10 @@ export default {
       first: false,
       second: false,
       finish: false,
+      timer: null,
+      createdWithdrawID: null,
       newWithdrawalRate: {
-        from_currency: 'EUR',
+        from_currency: 'USD',
         to_currency: 'BTC'
       },
       newWithdrawal: {
@@ -136,7 +139,9 @@ export default {
         .post('/v1.0/withdraw', body)
         .then((r) => {
           console.log(r.data)
-          this.createdWithdraw = r.data
+          this.createdWithdrawID = r.data.id
+          this.getWithdrawByID()
+          this.timer = setInterval(this.createdWithdrawUpdater, 1800)
           let parsed = JSON.parse(localStorage.withdraw_ids || '[]')
           parsed.push(r.data.id)
           localStorage.withdraw_ids = JSON.stringify(parsed)
@@ -158,6 +163,20 @@ export default {
       if (this.is_authenticated) {
         this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.getToken
       }
+    },
+    createdWithdrawUpdater () {
+      this.getWithdrawByID()
+      if (this.createdWithdraw.status === 'completed') clearInterval(this.timer)
+    },
+    getWithdrawByID () {
+      this.$http
+        .get('/v1.0/withdraw/' + this.createdWithdrawID)
+        .then((r) => {
+          this.createdWithdraw = r.data
+        })
+        .catch((e) => {
+          console.log(e.response)
+        })
     }
   },
   computed: {

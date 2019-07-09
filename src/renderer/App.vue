@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div>
-    </div>
-    <div>
-    </div>
-
-  <div>
     <md-toolbar class="md-transparent" v-if="is_authenticated">
       <md-button class="md-raised md-primary" to="/Wallet">кошелек</md-button>
       <md-button class="md-raised md-primary" to="/CreateWithdraw">вывести деньги</md-button>
@@ -19,7 +13,6 @@
     <md-content class="main">
       <router-view></router-view>
     </md-content>
-  </div>
   </div>
 </template>
 
