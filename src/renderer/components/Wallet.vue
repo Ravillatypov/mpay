@@ -39,13 +39,26 @@ export default {
           this.walletsList = r.data
         })
         .catch((e) => {
-          console.log(e.response)
-          if (e.response.status === 401) {
-            this.$updateAuthToken()
-            if (this.is_authenticated) this.update()
-          } else {
-            this.message = e.response.data
-          }
+          console.log(e.response.status)
+          console.log(e.response.data)
+          if (e.response.status === 401) this.updateToken()
+          if (e.response.status === 401 && this.is_authenticated) this.update()
+        })
+    },
+    updateToken () {
+      this.$http
+        .post('/oauth2/token', localStorage.client_token)
+        .then((r) => {
+          console.log('auth success')
+          this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
+        })
+        .catch((e) => {
+          console.log('auth failed')
+          console.log(e)
+          localStorage.removeItem('token_get_body')
+          localStorage.removeItem('client_token')
+          this.$store.dispatch('logOut')
+          this.$router.push('/Auth')
         })
     }
   },
@@ -57,7 +70,7 @@ export default {
   },
   mounted () {
     this.update()
-    this.timer = setInterval(this.update, 5000)
+    this.timer = setInterval(() => this.update(), 5000)
   }
 }
 </script>

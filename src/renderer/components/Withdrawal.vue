@@ -44,7 +44,7 @@
           <p>{{message}}</p>
         </md-card-content>
         <md-card-actions>
-          <md-button class="md-secondary" @click="steps='fists'">отмена</md-button>
+          <md-button class="md-secondary" @click="steps='fists';message=''">отмена</md-button>
           <md-button class="md-primary" @click="createWithdrawal()">подвердить</md-button>
         </md-card-actions>
       </md-card>
@@ -124,15 +124,15 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
-          if (e.response.status === 401 && this.have_body) {
-            this.$updateAuthToken()
-            if (this.is_authenticated) this.getWithdrawalToken()
-          } else {
+          if (e.response.status === 401) this.updateToken()
+          if (this.is_authenticated && e.response.status === 401) this.getWithdrawalToken()
+          else {
             this.message = e.response.data
           }
         })
     },
     createWithdrawal () {
+      this.message = ''
       if (!this.newWithdrawal.withdrawal_token) return
       const body = JSON.stringify(this.newWithdrawal)
       this.$http
@@ -140,33 +140,47 @@ export default {
         .then((r) => {
           console.log(r.data)
           this.createdWithdrawID = r.data.id
-          this.getWithdrawByID()
-          this.timer = setInterval(this.createdWithdrawUpdater, 1800)
           let parsed = JSON.parse(localStorage.withdraw_ids || '[]')
           parsed.push(r.data.id)
           localStorage.withdraw_ids = JSON.stringify(parsed)
           this.second = true
           this.steps = 'finish'
+          this.getWithdrawByID()
+          this.timer = setInterval(() => {
+            this.getWithdrawByID()
+          }, 1800)
         })
         .catch((e) => {
           console.log(e.response)
-          if (e.response.status === 401) {
-            this.$updateAuthToken()
-            if (this.is_authenticated) this.createWithdrawal()
-          } else {
+          if (e.response.status === 401) this.updateToken()
+          if (e.response.status === 401 && this.is_authenticated) this.createWithdrawal()
+          else {
             this.message = e.response.data
           }
         })
     },
-    createdWithdrawUpdater () {
-      this.getWithdrawByID()
-      if (this.createdWithdraw.status === 'completed') clearInterval(this.timer)
+    updateToken () {
+      this.$http
+        .post('/oauth2/token', localStorage.client_token)
+        .then((r) => {
+          console.log('auth success')
+          this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
+        })
+        .catch((e) => {
+          console.log('auth failed')
+          console.log(e)
+          localStorage.removeItem('token_get_body')
+          localStorage.removeItem('client_token')
+          this.$store.dispatch('logOut')
+          this.$router.push('/Auth')
+        })
     },
     getWithdrawByID () {
       this.$http
         .get('/v1.0/withdraw/' + this.createdWithdrawID)
         .then((r) => {
           this.createdWithdraw = r.data
+          if (this.createdWithdraw.status === 'completed') clearInterval(this.timer)
         })
         .catch((e) => {
           console.log(e.response)
