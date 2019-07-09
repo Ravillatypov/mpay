@@ -4,7 +4,11 @@
 
 <script>
 export default {
-  name: 'landing-page'
+  name: 'landing-page',
+  mounted () {
+    let toPath = this.$store.getters.is_authenticated ? '/Wallet' : '/Auth'
+    this.$router.push(toPath)
+  }
 }
 </script>
 

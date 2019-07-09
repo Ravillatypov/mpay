@@ -9,10 +9,10 @@
 
         <md-field md-has-password>
           <label>client_secret</label>
-          <md-input v-model="oauth2Token.client_secret" type="password"></md-input>
+          <md-input v-model="oauth2Token.client_secret"></md-input>
         </md-field>
 
-        <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">Log In</md-button>
+        <md-button class="md-primary md-raised md-elevation-1" @click="getToken()">войти</md-button>
         </div>
     </md-content>
     <p>{{message}}</p>
@@ -45,10 +45,6 @@ export default {
             body,
             token: r.data.access_token
           })
-          localStorage.setItem('client_secret', this.oauth2Token.client_secret)
-          localStorage.setItem('client_id', this.oauth2Token.client_id)
-          localStorage.setItem('token_get_body', body)
-          localStorage.setItem('client_token', r.data.access_token)
         })
         .catch((error) => {
           console.log(error.response.status)
