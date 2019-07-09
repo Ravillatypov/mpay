@@ -129,7 +129,7 @@ export default {
             this.updateToken()
             if (this.getToken) this.getWithdrawalToken()
           } else {
-            this.message = e.response.data.message
+            this.message = e.response.data
           }
         })
     },
@@ -151,7 +151,7 @@ export default {
             this.updateToken()
             if (this.getToken) this.createWithdrawal()
           } else {
-            this.message = e.response.data.message
+            this.message = e.response.data
           }
         })
     },
