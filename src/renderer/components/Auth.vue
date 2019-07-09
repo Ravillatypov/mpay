@@ -50,8 +50,8 @@ export default {
           console.log('auth failed')
           console.log(e)
           this.message = e.response
-          localStorage.token_get_body = false
-          localStorage.client_token = false
+          localStorage.removeItem('token_get_body')
+          localStorage.removeItem('client_token')
           this.$store.dispatch('logOut')
         })
     }

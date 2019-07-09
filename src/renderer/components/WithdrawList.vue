@@ -47,6 +47,22 @@ export default {
           console.log(e.response)
         })
       return result
+    },
+    updateToken () {
+      this.$http
+        .post('/oauth2/token', localStorage.client_token)
+        .then((r) => {
+          console.log('auth success')
+          this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
+        })
+        .catch((e) => {
+          console.log('auth failed')
+          console.log(e)
+          localStorage.removeItem('token_get_body')
+          localStorage.removeItem('client_token')
+          this.$store.dispatch('logOut')
+          this.$router.push('/Auth')
+        })
     }
   }
 }

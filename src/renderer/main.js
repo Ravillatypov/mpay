@@ -13,7 +13,7 @@ Vue.use(VueMaterial)
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 axios.defaults.baseURL = Config.BaseURL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-if (localStorage.client_token) axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('client_token')
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.client_token || ''
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 

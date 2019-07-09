@@ -26,6 +26,7 @@ export default {
   methods: {
     logOutAndAuth () {
       this.$store.dispatch('logOut')
+      localStorage.removeItem('client_token')
       this.$router.push('/Auth')
     }
   }
