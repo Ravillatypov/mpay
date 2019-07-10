@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import log from 'electron-log'
 export default {
   name: 'landing-page',
   data: function () {
@@ -40,6 +41,7 @@ export default {
         .post('/oauth2/token', body)
         .then((r) => {
           console.log('auth success')
+          log.info('authenticated successful')
           this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
           localStorage.client_token = r.data.access_token
           localStorage.token_get_body = body
@@ -49,6 +51,8 @@ export default {
         .catch((e) => {
           console.log('auth failed')
           console.log(e)
+          log.warn('authentication failed')
+          log.warn(e.response)
           this.message = e.response.data.message
           localStorage.removeItem('token_get_body')
           localStorage.removeItem('client_token')

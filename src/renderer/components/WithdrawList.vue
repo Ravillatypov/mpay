@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import log from 'electron-log'
 export default {
   name: 'invoice',
   data: function () {
@@ -45,6 +46,8 @@ export default {
         .then(r => { result = r.data })
         .catch((e) => {
           console.log(e.response)
+          log.warn('can`t get withdraw')
+          log.warn(e.response)
           if (e.response.status === 401) {
             this.$updateAuthToken()
             if (this.is_authenticated) this.getWithdrawByID(id)
@@ -59,11 +62,13 @@ export default {
         .post('/oauth2/token', localStorage.client_token)
         .then((r) => {
           console.log('auth success')
+          log.info('token updated')
           this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.access_token
         })
         .catch((e) => {
           console.log('auth failed')
           console.log(e)
+          log.warn(e.response)
           localStorage.removeItem('token_get_body')
           localStorage.removeItem('client_token')
           this.$store.dispatch('logOut')

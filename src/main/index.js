@@ -1,7 +1,8 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
-
+import log from 'electron-log'
+const {shell} = require('electron')
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -43,13 +44,21 @@ function createWindow () {
       { label: 'Выбрать все', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
     ]},
   {
-    label: 'Справка',
+    label: 'Дополнительно',
     submenu: [
-      { label: 'О приложении', click () { require('electron').shell.openExternal('https://github.com/Ravillatypov/mpay') } },
       {
         label: 'Открыть инструменты разработчика',
         click () { mainWindow.webContents.openDevTools() }
+      },
+      {
+        label: 'Открыть папку логами',
+        click () { shell.showItemInFolder(log.transports.file.findLogPath()) }
       }
+    ]},
+  {
+    label: 'Справка',
+    submenu: [
+      { label: 'О приложении', click () { shell.openExternal('https://github.com/Ravillatypov/mpay') } }
     ]}
   ]
 

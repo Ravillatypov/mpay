@@ -23,6 +23,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import { setInterval } from 'timers'
+import log from 'electron-log'
 export default {
   name: 'invoice',
   data: function () {
@@ -41,6 +42,7 @@ export default {
         .catch((e) => {
           console.log(e.response.status)
           console.log(e.response.data)
+          log.warn(e.response)
           if (e.response.status === 401) this.updateToken()
           if (e.response.status === 401 && this.is_authenticated) this.update()
         })
@@ -55,6 +57,7 @@ export default {
         .catch((e) => {
           console.log('auth failed')
           console.log(e)
+          log.warn(e.response)
           localStorage.removeItem('token_get_body')
           localStorage.removeItem('client_token')
           this.$store.dispatch('logOut')

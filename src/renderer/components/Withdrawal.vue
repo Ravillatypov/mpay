@@ -1,6 +1,6 @@
 <template>
   <md-steppers :md-active-step.sync="steps" md-linear>
-    <md-step id="first" md-label="получить курс обмена" :md-editable="false" :md-done.sync="first">
+    <md-step id="first" :md-editable="false" :md-done.sync="first">
       <div class="md-layout md-gutter">
           <div class="md-layout-item">
             <md-field>
@@ -24,7 +24,7 @@
           <p>{{message}}</p>
       </div>
     </md-step>
-    <md-step id="second" md-label="запрос на вывод" :md-editable="false" :md-done.sync="second">
+    <md-step id="second" :md-editable="false" :md-done.sync="second">
       <md-card>
         <md-card-header>
           <div class="md-title">подвердите данные</div>
@@ -49,7 +49,7 @@
         </md-card-actions>
       </md-card>
     </md-step>
-    <md-step id="finish" md-label="создан запрос на вывод" :md-editable="false" :md-done.sync="finish">
+    <md-step id="finish" :md-editable="false" :md-done.sync="finish">
       <md-table md-card v-show="createdWithdraw.id">
         <md-table-toolbar>
           <h1 class="md-title">создан запрос на вывод</h1>
@@ -70,6 +70,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import { setInterval, clearInterval } from 'timers'
+import log from 'electron-log'
 export default {
   name: 'withdrawal',
   data: function () {
@@ -124,6 +125,7 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
+          log.warn(e.response)
           if (e.response.status === 401) this.updateToken()
           if (this.is_authenticated && e.response.status === 401) this.getWithdrawalToken()
           else {
@@ -151,6 +153,7 @@ export default {
           }, 1800)
         })
         .catch((e) => {
+          log.warn(e.response)
           console.log(e.response)
           if (e.response.status === 401) this.updateToken()
           if (e.response.status === 401 && this.is_authenticated) this.createWithdrawal()
@@ -168,6 +171,7 @@ export default {
         })
         .catch((e) => {
           console.log('auth failed')
+          log.warn(e.response)
           console.log(e)
           localStorage.removeItem('token_get_body')
           localStorage.removeItem('client_token')
@@ -184,6 +188,7 @@ export default {
         })
         .catch((e) => {
           console.log(e.response)
+          log.warn(e.response)
           if (e.response.status === 401) {
             this.$updateAuthToken()
             if (this.is_authenticated) this.getWithdrawByID()
