@@ -33,20 +33,23 @@ function createWindow () {
   })
 
   var template = [{
-    label: 'Application',
+    label: 'Правка',
     submenu: [
-      { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
-      { type: 'separator' }
-    ]}, {
-    label: 'Edit',
+      { label: 'Отменить', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+      { label: 'Повторить', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+      { label: 'Вырезать', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+      { label: 'Скопировать', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Вставить', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Выбрать все', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+    ]},
+  {
+    label: 'Справка',
     submenu: [
-      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-      { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-      { type: 'separator' },
-      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-      { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+      { label: 'О приложении', click () { require('electron').shell.openExternal('https://github.com/Ravillatypov/mpay') } },
+      {
+        label: 'Открыть инструменты разработчика',
+        click () { mainWindow.webContents.openDevTools() }
+      }
     ]}
   ]
 

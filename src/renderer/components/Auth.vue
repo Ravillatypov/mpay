@@ -49,7 +49,7 @@ export default {
         .catch((e) => {
           console.log('auth failed')
           console.log(e)
-          this.message = e.response
+          this.message = e.response.data.message
           localStorage.removeItem('token_get_body')
           localStorage.removeItem('client_token')
           this.$store.dispatch('logOut')

@@ -127,7 +127,7 @@ export default {
           if (e.response.status === 401) this.updateToken()
           if (this.is_authenticated && e.response.status === 401) this.getWithdrawalToken()
           else {
-            this.message = e.response.data
+            this.message = e.response.data.message
           }
         })
     },
@@ -155,7 +155,7 @@ export default {
           if (e.response.status === 401) this.updateToken()
           if (e.response.status === 401 && this.is_authenticated) this.createWithdrawal()
           else {
-            this.message = e.response.data
+            this.message = e.response.data.message
           }
         })
     },
@@ -188,7 +188,7 @@ export default {
             this.$updateAuthToken()
             if (this.is_authenticated) this.getWithdrawByID()
           } else {
-            this.message = e.response.data
+            this.message = e.response.data.message
           }
         })
     }

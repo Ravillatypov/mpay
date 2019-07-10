@@ -49,7 +49,7 @@ export default {
             this.$updateAuthToken()
             if (this.is_authenticated) this.getWithdrawByID(id)
           } else {
-            this.message = e.response.data
+            this.message = e.response.data.message
           }
         })
       return result
